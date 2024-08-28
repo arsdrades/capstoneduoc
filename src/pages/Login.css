@@ -1,0 +1,36 @@
+.login{
+    --ion-background-color: #04459A;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    
+}
+
+.imaglogin{
+    height: 150px;
+    padding-top: 40px;
+    padding-left: 35px;
+
+}
+
+/* Puedes personalizar los estilos del login aquí */
+.ion-padding {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  ion-item {
+    margin-bottom: 20px;
+  }
+  
+  ion-button {
+    margin-top: 20px;
+  }
+
+.no-header {
+    ion-header {
+      display: none; /* Hide the header containing the navigation bar */
+    }
+  }

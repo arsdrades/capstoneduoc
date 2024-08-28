@@ -1,0 +1,12 @@
+.principal{
+    --ion-background-color: #04459A;
+    text-align: center;
+  }
+
+  .custom-searchbar .searchbar-input {
+    color: black; /* Cambia el color del texto del input */
+  }
+  
+  .custom-searchbar .searchbar-placeholder {
+    color: black; /* Cambia el color del texto del placeholder */
+  }
