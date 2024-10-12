@@ -3,7 +3,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonLabel
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine'; // Asegúrate de que esta línea esté presente
-import './Tab1.css'; // Asegúrate de que este archivo contenga los estilos adecuados para tu aplicación
+import './Perfil.css'; // Asegúrate de que este archivo contenga los estilos adecuados para tu aplicación
 
 const ProgramarViaje: React.FC = () => {
   const [startAddress, setStartAddress] = useState('');

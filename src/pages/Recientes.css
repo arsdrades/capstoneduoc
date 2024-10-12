@@ -1,0 +1,8 @@
+
+  
+  /* Eliminar el borde completamente */
+  .custom-item {
+    --border-style: ;
+    --border-color: #01c380;
+  }
+  

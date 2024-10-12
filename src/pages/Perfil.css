@@ -1,0 +1,95 @@
+.thumbnail-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.thumbnail-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  line-height: 0; /* Ajusta la separación vertical */
+}
+
+.ion-thumbnail {
+  width: 80px; /* Ajusta el tamaño según tus necesidades */
+  height: 80px; /* Ajusta el tamaño según tus necesidades */
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.ion-thumbnail img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+}
+
+.thumbnail-name {
+  text-align: center;
+  color: #132d46; /* Ajusta el color según tus necesidades */
+  padding: 1px;
+  font-size: 1.3rem; /* Cambia el tamaño del h1 */
+  font-weight: bold; /* Si deseas que el texto se vea más grueso */
+}
+
+.thumbnail-name + p {
+  color: #838080; /* Cambia el color del texto p */
+  font-size: 1rem; /* Puedes ajustar el tamaño si es necesario */
+  margin: 0; /* Elimina el margen si deseas que estén más cerca */
+}
+
+.custom-card {
+  background-color: #fdfeff; /* Color personalizado */
+  color: rgb(192, 39, 39); /* Si quieres que el texto también cambie de color */
+}
+
+.boton-cerrar-sesion {
+  width: 200px; /* Ajusta el tamaño horizontal */
+  margin: 0 auto; /* Centrar el botón */
+}
+
+.thumbnail-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px;
+  flex-direction: column;
+}
+
+.thumbnail-background {
+  width: 110px; /* Tamaño del círculo de fondo */
+  height: 110px;
+  background-color: #01c380; /* Color del fondo circular */
+  border-radius: 50%; /* Hace que el contenedor sea circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ion-thumbnail {
+  width: 90px; /* Ajusta el tamaño de la imagen */
+  height: 90px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.ion-thumbnail img {
+  object-fit: cover;
+}
+
+.thumbnail-name {
+  margin-top: 10px;
+  text-align: center;
+  color: #000;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.thumbnail-email {
+  color: #838080;
+  font-size: 1.2rem;
+  margin: 0;
+}

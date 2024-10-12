@@ -12,11 +12,16 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { home, reader, personCircleOutline } from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
+import Inicio from './pages/Inicio';
+import Recientes from './pages/Recientes';
+import Perfil from './pages/Perfil';
 import Login from './pages/Login';
+import About from './pages/About';
 import ProgramarViaje from './pages/ProgramarViaje';
+import Mensajes from './pages/Mensajes';
+import Registrarme from './pages/Registrarme';
+import Pedido from './pages/Pedido';
+
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -40,6 +45,7 @@ import '@ionic/react/css/palettes/dark.class.css';
 /* Theme variables */
 import './theme/variables.css';
 
+
 setupIonicReact();
 
 const App: React.FC = () => {
@@ -58,11 +64,14 @@ const App: React.FC = () => {
   );
 };
 
-
 const AppContent: React.FC = () => {
   const location = useLocation();
   const isLoginPage = location.pathname === '/login';
   const isSplashPage = location.pathname === '/splash';
+  const isAboutPage = location.pathname === '/about';
+  const isMensajesPage = location.pathname === '/mensajes'; // Verifica si estás en la página About
+  const isRegistrarmePage = location.pathname === '/registrarme'; // Verifica si estás en la página About
+  const isPedidoPage = location.pathname === '/pedido'; // Verifica si estás en la página About
 
   return (
     <>
@@ -70,23 +79,29 @@ const AppContent: React.FC = () => {
         <IonTabs>
           <IonRouterOutlet>
             <Switch>
-              <Route exact path="/tab1" component={Tab1} />
-              <Route exact path="/tab2" component={Tab2} />
-              <Route path="/tab3" component={Tab3} />
-              <Route path="/programar-viaje" component={ProgramarViaje} exact={true} />
+              <Route exact path="/inicio" component={Inicio} />
+              <Route exact path="/recientes" component={Recientes} />
+              <Route path="/perfil" component={Perfil} />
+              <Route exact path="/about" component={About} />
+              <Route path="/programar-viaje" component={ProgramarViaje} exact />
+              <Route exact path="/mensajes" component={Mensajes} />
+              <Route exact path="/registrarme" component={Registrarme} />
+              <Route exact path="/pedido" component={Pedido} />
               <Redirect from="/" to="/login" />
             </Switch>
           </IonRouterOutlet>
-          <IonTabBar slot="bottom">
-            <IonTabButton tab="tab1" href="/tab1">
+
+          {/* Aplica una clase CSS condicional para ocultar el IonTabBar en /about */}
+          <IonTabBar slot="bottom" className={(isAboutPage || isMensajesPage || isRegistrarmePage) ? 'hidden' : ''}>
+            <IonTabButton tab="inicio" href="/inicio">
               <IonIcon aria-hidden="true" icon={home} />
               <IonLabel>Inicio</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="tab2" href="/tab2">
+            <IonTabButton tab="recientes" href="/recientes">
               <IonIcon aria-hidden="true" icon={reader} />
               <IonLabel>Recientes</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="tab3" href="/tab3">
+            <IonTabButton tab="perfil" href="/perfil">
               <IonIcon aria-hidden="true" icon={personCircleOutline} />
               <IonLabel>Perfil</IonLabel>
             </IonTabButton>
@@ -97,5 +112,6 @@ const AppContent: React.FC = () => {
     </>
   );
 };
+
 
 export default App;

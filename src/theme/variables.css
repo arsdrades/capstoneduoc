@@ -1,9 +1,13 @@
 /* Set variables for all modes */
 :root {
     /* Set the background of the entire app */
-    --ion-background-color: #FFFFFF;
-    --ion-color-primary: #04459A;
-    --ion-color-secondary: #ff6600;
+    --ion-background-color: #f8f9fa;
+    --ion-color-primary: #132d46 ;
+    --ion-color-secondary: #01c380;
+    --ion-color-tertiary: #9aa7a2;
+    --ion-toolbar-background: #ff5733; /* Color de fondo del navbar */
+    --ion-toolbar-color: #000000; /* Color del texto y los íconos */
+    
     
   
     /* Set the font family of the entire app */
@@ -12,17 +16,22 @@
   
   /* Set text color of the entire app for iOS only */
   :root.ios {
-    --ion-text-color: #ffffff;
+    --ion-text-color: #000000;
   }
   
   /* Set text color of the entire app for Material Design only */
   :root.md {
-    --ion-text-color: #ffffff; ;
+    --ion-text-color: #000000; ;
     
   }
 
   .principal{
-    --ion-background-color: #04459A;
+  
+    text-align: center;
+
+  }
+
+  .headerback{
     text-align: center;
   }
 
@@ -50,6 +59,18 @@
 }
 
 .opcionesperfil{
-  --ion-text-color: #04459A;
-  --ion-icon-color: #04459a;
+  --ion-text-color: #ffffff;
+  --ion-icon-color: #ffffff;
+}
+
+.imaglogin{
+  height: 150px;
+  padding-top: 50px;
+  padding-left: 50px;
+
+}
+
+.input-custom {
+  color: white !important; /* Asegura que el texto sea blanco */
+  caret-color: white !important; /* Cambia el color del cursor a blanco */
 }

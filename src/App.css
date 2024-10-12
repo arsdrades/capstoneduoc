@@ -1,0 +1,10 @@
+.color{
+    background-color: #132d46 ;
+    color: #132d46;
+}
+
+:root {
+    --ion-toolbar-background: #ff5733; /* Color de fondo del navbar */
+    --ion-toolbar-color: #ffffff; /* Color del texto y los íconos */
+    --border-style: none;
+  }

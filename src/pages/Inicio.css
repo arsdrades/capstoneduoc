@@ -1,0 +1,80 @@
+.principal{
+    --ion-background-color: #04459A;
+    text-align: center;
+  }
+
+  .custom-searchbar .searchbar-input {
+    color: black; /* Cambia el color del texto del input */
+  }
+  
+  .custom-searchbar .searchbar-placeholder {
+    color: black; /* Cambia el color del texto del placeholder */
+  }
+  
+  .titulocarta{
+    background-color: #132d46;
+    color: #132d46;
+    padding: 10px;
+    text-align: center; /* Centra el texto */
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+  }
+
+  .botonbuscarruta{
+    background-color: #132d46;
+    align-items: center;
+  }
+
+ .carta{
+  text-align: center; /* Centra el texto */
+  width: 100%; /* Asegura que ocupe todo el ancho disponible */
+ }
+
+  .iniciotitulos{
+    background-color: #132d46;
+    color: #ffffff;
+    background-color: #132d46;
+  }
+
+  /* Inicio.css */
+.titulocarta {
+  text-align: center; /* Centra el texto */
+  margin: 20px 0; /* Añade margen superior e inferior */
+}
+
+.centered-button {
+  display: flex;
+  justify-content: center; /* Centra el botón */
+  margin: 20px 0; /* Añade margen superior e inferior */
+}
+
+#map {
+  height: 400px; /* Altura del mapa */
+  width: 100%; /* Ancho del mapa */
+}
+
+.fixed-location {
+  position: fixed;
+  bottom: 70px;
+  width: 100%;
+  text-align: center;
+  color: #3880ff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.carta{
+  background-color: #132d46;
+  color: aliceblue;
+}
+
+.botoncentrado{
+  display:flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+
+ion-input.input-custom::part(native) {
+  caret-color: white !important;
+  color: white !important;
+}
