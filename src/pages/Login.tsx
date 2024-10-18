@@ -2,47 +2,54 @@ import React, { useState } from 'react';
 import { IonContent, IonIcon, IonImg, IonPage, IonInput, IonItem, IonLabel, IonButton } from '@ionic/react'; // Importar componentes necesarios
 import { logoGoogle } from 'ionicons/icons'; // Importar iconos necesarios
 import { useHistory } from 'react-router-dom'; // Ruteo
-import { supabase } from '../conectarse/supabaseClient';
+import { loginUser } from '../conectarse/supabaseClient'; 
+import { useUser } from '../conectarse/userContext'
 import './Login.css'; // Importar CSS
 
 // Definir tipos para el estado
 const Login: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const { setUser } = useUser();
   const history = useHistory();
 
-  const handleLogin = async (): Promise<void> => {
+
+  const handleLogin = async () => {
     try {
-      const { data, error } = await supabase
-        .from('usuarios')
-        .select('*')
-        .eq('email', email)
-        .eq('password', password);
-      
-      if (data && data.length > 0) {
-        history.push('/recientes'); // Redirigir si las credenciales son correctas
+      console.log('Iniciando sesión con:', email, password);
+      const user = await loginUser(email, password);
+
+      if (!user) {
+
+        setErrorMessage('Credenciales incorrectas o error en el sistema. Por favor intenta nuevamente.');
+        return;
+      }
+
+      if (user.password === password) {
+        console.log('Login exitoso:', user);
+        setUser(user);
+        history.push('/inicio'); 
       } else {
-        console.log('Credenciales incorrectas');
+        setErrorMessage('Credenciales incorrectas. Verifica tu correo y contraseña.');
       }
-  
-      if (error) {
-        console.error('Error al verificar credenciales:', error);
-      }
-    } catch (error) {
-      console.error('Error al iniciar sesión:', error);
+    } catch (error: any) {
+      console.error('Error en el inicio de sesión:', error.message);
+      setErrorMessage('Error en el sistema. Por favor intenta nuevamente.');
     }
   };
 
   const handleRegistrarme = (): void => {
     history.push('/registrarme'); // Redirige a la página "Registrarme"
   };
+  
 
   return (
     <IonPage className='login no-header'>
       <IonContent className="login">
         <IonImg className='imaglogin' src="/src/img/logo.png" />
         <IonLabel className='pad' color="secondary"><h2>Inicia Sesión</h2></IonLabel>
-        <IonLabel>Ingresa tu correo y contraseña para iniciar sesión</IonLabel>
+        <IonLabel color="light">Ingresa tu correo y contraseña</IonLabel>
         <IonItem className='pad'>
           <IonLabel color="secondary" position="stacked">Correo</IonLabel>
           <IonInput 

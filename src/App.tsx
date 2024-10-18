@@ -45,24 +45,32 @@ import '@ionic/react/css/palettes/dark.class.css';
 /* Theme variables */
 import './theme/variables.css';
 
+import { createClient } from "@supabase/supabase-js";
+import { UserProvider } from './conectarse/userContext';
+
+const supabase = createClient("https://ltfqtkcfoumbtomhjluu.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx0ZnF0a2Nmb3VtYnRvbWhqbHV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjczMTk3OTksImV4cCI6MjA0Mjg5NTc5OX0.YtVIJD5mQlmA7I3vraxUaV8fcgyWkx3VTd3qgpAE0So");
 
 setupIonicReact();
 
 const App: React.FC = () => {
   return (
     <IonApp>
-      <IonReactRouter>
-        <Switch>
-          <Route exact path="/login" component={Login} />
-          <Route path="/">
-
-          </Route>
-        </Switch>
-        <AppContent />
-      </IonReactRouter>
+      <UserProvider>
+        {/* Asegúrate de que IonReactRouter envuelve las rutas */}
+        <IonReactRouter>
+          <Switch>
+            {/* Definimos las rutas */}
+            <Route exact path="/login" component={Login} />
+            <Route path="/perfil" component={Perfil} />
+          </Switch>
+          {/* AppContent debería estar dentro del IonReactRouter si depende del enrutado */}
+          <AppContent />
+        </IonReactRouter>
+      </UserProvider>
     </IonApp>
   );
 };
+
 
 const AppContent: React.FC = () => {
   const location = useLocation();

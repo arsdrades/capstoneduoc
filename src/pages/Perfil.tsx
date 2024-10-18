@@ -2,9 +2,17 @@ import { IonCard, IonThumbnail, IonRow, IonCol, IonGrid, IonIcon, IonContent, Io
 import { useHistory } from 'react-router-dom'; //Rutear
 import './Perfil.css'; // Importar el CSS
 import { settings, mail, happy, bookmark, alertCircle, chevronForwardOutline } from 'ionicons/icons'; //Importar Iconos
+import { useUser } from '../conectarse/userContext'
 
 const Perfil: React.FC = () => {
+
   const history = useHistory();
+
+  const { user } = useUser();
+
+  if (!user) {
+    return <p>No hay datos del usuario</p>; // Si no hay usuario, mostramos un mensaje
+  }
 
   const handleAbout = () => {
     history.push('/about'); // Redirige a la página "About"
@@ -34,8 +42,8 @@ const Perfil: React.FC = () => {
         </IonThumbnail>
       </div>
       <div className="">
-        <h1 className="thumbnail-name">Walther White</h1>
-        <p className="thumbnail-email">walterwhite@gmail.com</p>
+      <h3 className="thumbnail-name">{user.nombre} {user.apellido}</h3>
+      <p className="thumbnail-name">{user.email} </p>
       </div>
     </div>
         <IonCard className="custom-card">
