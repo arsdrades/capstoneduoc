@@ -2,7 +2,7 @@ import { IonCard, IonThumbnail, IonRow, IonCol, IonGrid, IonIcon, IonContent, Io
 import { useHistory } from 'react-router-dom'; //Rutear
 import './Perfil.css'; // Importar el CSS
 import { settings, mail, happy, bookmark, alertCircle, chevronForwardOutline } from 'ionicons/icons'; //Importar Iconos
-import { useUser } from '../conectarse/userContext'
+import { useUser } from '../CAPA DATOS/userContext'
 
 const Perfil: React.FC = () => {
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'; 
 import { IonContent, IonIcon, IonImg, IonPage, IonInput, IonItem, IonLabel, IonButton } from '@ionic/react'; 
 import { useHistory } from 'react-router-dom';
-import { supabase } from '../conectarse/supabaseClient'; 
+import { supabase } from '../CAPA DATOS/supabaseClient'; 
 import './Registrarme.css';
 
 // Definir la interfaz para los usuarios

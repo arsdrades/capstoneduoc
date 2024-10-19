@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { IonContent, IonIcon, IonImg, IonPage, IonInput, IonItem, IonLabel, IonButton } from '@ionic/react'; // Importar componentes necesarios
 import { logoGoogle } from 'ionicons/icons'; // Importar iconos necesarios
 import { useHistory } from 'react-router-dom'; // Ruteo
-import { loginUser } from '../conectarse/supabaseClient'; 
-import { useUser } from '../conectarse/userContext'
+import { loginUser } from '../CAPA DATOS/supabaseClient'; 
+import { useUser } from '../CAPA DATOS/userContext'
 import './Login.css'; // Importar CSS
 
 // Definir tipos para el estado

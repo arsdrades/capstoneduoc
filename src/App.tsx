@@ -46,7 +46,7 @@ import '@ionic/react/css/palettes/dark.class.css';
 import './theme/variables.css';
 
 import { createClient } from "@supabase/supabase-js";
-import { UserProvider } from './conectarse/userContext';
+import { UserProvider } from './CAPA DATOS/userContext';
 
 const supabase = createClient("https://ltfqtkcfoumbtomhjluu.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx0ZnF0a2Nmb3VtYnRvbWhqbHV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjczMTk3OTksImV4cCI6MjA0Mjg5NTc5OX0.YtVIJD5mQlmA7I3vraxUaV8fcgyWkx3VTd3qgpAE0So");
 
