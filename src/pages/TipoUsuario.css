@@ -1,0 +1,49 @@
+/* Fondo y estilo principal de la página de login */
+.login {
+    --ion-background-color: #132d46;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra verticalmente */
+    align-items: center; /* Centra horizontalmente */
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    text-align: center;
+    color: aliceblue;
+}
+
+/* Imagen del logo */
+.imagelogo {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px; /* Espacio debajo de la imagen */
+    padding-top: 170px;
+}
+
+/* Secciones para estructura flexible */
+.top-section, .middle-section, .bottom-section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ajustes específicos de cada sección */
+.middle-section {
+    padding-top: 1rem;
+}
+
+.bottom-section {
+    flex-direction: column;
+    gap: 20px; /* Espacio entre botones */
+}
+
+/* Estilo para los botones */
+.big-button {
+    width: 90%;
+    height: 60px;
+    font-size: 1.2rem;
+}
+
+/* Ocultar el encabezado si es necesario */
+.no-header ion-header {
+    display: none;
+}
