@@ -1,0 +1,17 @@
+/* ProgramarViaje.css */
+.ion-page {
+    color: black; /* Establece el color de texto por defecto */
+  }
+  
+  ion-item {
+    color: black; /* Establece el color de texto para los ítems */
+  }
+  
+  ion-label {
+    color: black; /* Establece el color de texto para las etiquetas */
+  }
+  
+  .ion-button {
+    color: white; /* Ajusta el color del texto del botón, si es necesario */
+    --background: #007bff; /* Establece el color de fondo del botón */
+  }

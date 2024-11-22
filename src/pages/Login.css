@@ -1,0 +1,56 @@
+.login{
+    --ion-background-color: #132d46;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    
+}
+.p{
+  color: aliceblue;
+}
+
+.imaglogin{
+    height: 150px;
+    padding-top: 50px;
+    padding-left: 50px;
+
+}
+
+.pad{
+  padding: 20px;
+}
+/* Puedes personalizar los estilos del login aquí */
+.ion-padding {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  ion-item {
+    margin-bottom: 20px;
+  }
+  
+  ion-button {
+    margin-top: 20px;
+  }
+
+.no-header {
+    ion-header {
+      display: none; /* Hide the header containing the navigation bar */
+    }
+  }
+  .no-spacing-list {
+    padding: 0;
+  }
+  
+  .no-spacing-item {
+    --inner-padding: 0px; /* Elimina el padding interno */
+    margin: 0; /* Elimina el margen */
+    padding: 5px 0; /* Añade un pequeño espacio si es necesario */
+    min-height: 40px; /* Puedes ajustar la altura mínima */
+  }
+  
+  .no-spacing-item ion-label {
+    font-size: 1rem; /* Ajusta el tamaño del texto si es necesario */
+  }
