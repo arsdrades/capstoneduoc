@@ -20,11 +20,24 @@ app.use(
 // Proxy para la geocodificación con Nominatim
 app.get("/api/geocode", async (req, res) => {
   const { address } = req.query;
+
+  // Validar que la dirección esté definida
+  if (!address) {
+    return res.status(400).json({ error: "La dirección es requerida" });
+  }
+
   const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`;
 
   try {
+    console.log("URL construida para geocodificación:", url); // Log para depuración
     const response = await fetch(url);
     const data = await response.json();
+
+    // Validar si la respuesta tiene datos
+    if (!data || data.length === 0) {
+      return res.status(404).json({ error: "No se encontraron resultados para la dirección" });
+    }
+
     res.json(data);
   } catch (error) {
     console.error("Error en el proxy de geocodificación:", error);
@@ -35,11 +48,24 @@ app.get("/api/geocode", async (req, res) => {
 // Proxy para obtener rutas con OpenRouteService
 app.get("/api/directions", async (req, res) => {
   const { start, end } = req.query;
+
+  // Validar que las coordenadas de inicio y fin estén definidas
+  if (!start || !end) {
+    return res.status(400).json({ error: "Coordenadas de inicio y fin son requeridas" });
+  }
+
   const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${apiKey}&start=${start}&end=${end}`;
 
   try {
+    console.log("URL construida para direcciones:", url); // Log para depuración
     const response = await fetch(url);
     const data = await response.json();
+
+    // Validar si la respuesta tiene rutas
+    if (!data || !data.features) {
+      return res.status(404).json({ error: "No se encontraron rutas para las coordenadas proporcionadas" });
+    }
+
     res.json(data);
   } catch (error) {
     console.error("Error en el proxy de direcciones:", error);
@@ -47,4 +73,5 @@ app.get("/api/directions", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => console.log(`Proxy running on http://localhost:${PORT}`));
+// Iniciar servidor en el puerto especificado
+app.listen(PORT, () => console.log(`Proxy corriendo en http://localhost:${PORT}`));

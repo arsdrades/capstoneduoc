@@ -12,6 +12,7 @@ import {
   IonText,
   IonButton,
 } from "@ionic/react";
+import { supabase } from "../CAPA DATOS/supabaseClient";
 
 type Producto = {
   nombre: string;
@@ -32,7 +33,6 @@ const Detalles_Solicitud: React.FC = () => {
 
   const history = useHistory();
 
-  // Formateador de números
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("es-CL", {
       style: "currency",
@@ -43,7 +43,6 @@ const Detalles_Solicitud: React.FC = () => {
 
   useEffect(() => {
     try {
-      // Leer datos de sessionStorage
       const origen = sessionStorage.getItem("direccionOrigen") || "";
       const destino = sessionStorage.getItem("direccionDestino") || "";
       const distanceCostFromStorage = sessionStorage.getItem("distanceCost");
@@ -52,12 +51,10 @@ const Detalles_Solicitud: React.FC = () => {
       setDireccionOrigen(origen);
       setDireccionDestino(destino);
 
-      // Cargar costo de distancia desde sessionStorage
       if (distanceCostFromStorage) {
         setDistanceCost(Number(distanceCostFromStorage));
       }
 
-      // Cargar productos seleccionados desde localStorage
       if (productosData) {
         const productos = JSON.parse(productosData).map((producto: any) => ({
           ...producto,
@@ -66,7 +63,6 @@ const Detalles_Solicitud: React.FC = () => {
         }));
         setProductosSeleccionados(productos);
 
-        // Calcular el costo total de los productos
         const totalProductosCost = productos.reduce(
           (acc: number, producto: Producto) => acc + producto.costo * producto.cantidad,
           0
@@ -80,15 +76,104 @@ const Detalles_Solicitud: React.FC = () => {
 
   const totalSolicitudCost = costoTotalProductos + distanceCost;
 
-  const handleContinuar = () => {
+  const handleContinuar = async () => {
     if (!direccionOrigen || !direccionDestino) {
       alert("Por favor, asegúrate de que las direcciones estén completas.");
       return;
     }
+  
+    try {
+      // Obtener ubicación del conductor
+      const { data: driverData, error: driverError } = await supabase
+        .from("driver_locations")
+        .select("latitude, longitude")
+        .eq("driver_id", "driver-123")
+        .maybeSingle(); // Permite que no haya registros
+  
+      if (driverError) {
+        console.error("Error obteniendo la ubicación del conductor:", driverError.message);
+        alert("No se pudo obtener la ubicación del conductor. Inténtalo de nuevo.");
+        return;
+      }
+  
+      // Guardar ubicación del conductor en sessionStorage (o valores predeterminados)
+      if (driverData && driverData.latitude && driverData.longitude) {
+        sessionStorage.setItem("conductorLat", driverData.latitude.toString());
+        sessionStorage.setItem("conductorLng", driverData.longitude.toString());
+      } else {
+        console.warn("No se encontraron datos del conductor. Continuando sin ubicación del conductor.");
+        sessionStorage.setItem("conductorLat", ""); // Valores vacíos o predeterminados
+        sessionStorage.setItem("conductorLng", "");
+      }
+  
+      // Geocodificar direcciones de origen y destino
+      const fetchGeocode = async (address: string) => {
+        const url = `http://localhost:3001/api/geocode?address=${encodeURIComponent(address)}`;
+        try {
+          const response = await fetch(url);
+          const data = await response.json();
+          if (data.length > 0) {
+            return { lat: data[0].lat, lng: data[0].lon };
+          }
+        } catch (error) {
+          console.error("Error geocodificando la dirección:", error);
+        }
+        return null;
+      };
+  
+      const originCoords = await fetchGeocode(direccionOrigen);
+      const destinationCoords = await fetchGeocode(direccionDestino);
+  
+      if (!originCoords || !destinationCoords) {
+        alert("No se pudieron geocodificar las direcciones. Verifica las direcciones ingresadas.");
+        return;
+      }
+  
+      // Guardar direcciones geocodificadas en sessionStorage
+      sessionStorage.setItem("direccionOrigen", direccionOrigen);
+      sessionStorage.setItem("direccionDestino", direccionDestino);
+      sessionStorage.setItem("originLat", originCoords.lat.toString());
+      sessionStorage.setItem("originLng", originCoords.lng.toString());
+      sessionStorage.setItem("destinationLat", destinationCoords.lat.toString());
+      sessionStorage.setItem("destinationLng", destinationCoords.lng.toString());
+  
+      // Obtener y guardar la ruta entre origen y destino
+      const fetchRoute = async (start: [number, number], end: [number, number]) => {
+        const startCoords = `${start[1]},${start[0]}`;
+        const endCoords = `${end[1]},${end[0]}`;
+        const url = `http://localhost:3001/api/directions?start=${startCoords}&end=${endCoords}`;
+        try {
+          const response = await fetch(url);
+          const data = await response.json();
+          if (data.features?.[0]?.geometry?.coordinates) {
+            const coordinates = data.features[0].geometry.coordinates.map(
+              ([lng, lat]: [number, number]) => ({ lat, lng })
+            );
+            sessionStorage.setItem("route", JSON.stringify(coordinates));
+          }
+        } catch (error) {
+          console.error("Error obteniendo la ruta:", error);
+        }
+      };
+  
+      await fetchRoute([originCoords.lat, originCoords.lng], [destinationCoords.lat, destinationCoords.lng]);
+  
+      // Redirigir a la vista Maps
+      history.push("/Maps");
+    } catch (error) {
+      console.error("Error al procesar la solicitud:", error);
+      alert("Ocurrió un error inesperado. Inténtalo de nuevo.");
+    }
+  };
 
-    sessionStorage.setItem("direccionOrigen", direccionOrigen);
-    sessionStorage.setItem("direccionDestino", direccionDestino);
-    history.push("/Maps");
+  const showSessionStorage = () => {
+    const entries = Object.entries(sessionStorage);
+    let message = "Datos en sessionStorage:\n";
+    entries.forEach(([key, value]) => {
+      message += `${key}: ${value}\n`;
+    });
+    console.log("sessionStorage:", entries);
+    alert(message);
   };
 
   return (
@@ -168,6 +253,9 @@ const Detalles_Solicitud: React.FC = () => {
         <div style={{ textAlign: "center", marginTop: "2rem" }}>
           <IonButton color="primary" expand="block" onClick={handleContinuar}>
             Buscar Flete
+          </IonButton>
+          <IonButton color="secondary" expand="block" onClick={showSessionStorage}>
+            Mostrar sessionStorage
           </IonButton>
         </div>
       </IonContent>
