@@ -74,39 +74,18 @@ const Detalles_Solicitud: React.FC = () => {
     }
   }, []);
 
-  const totalSolicitudCost = costoTotalProductos + distanceCost;
+  useEffect(() => {
+    const totalSolicitudCost = costoTotalProductos + distanceCost;
+    sessionStorage.setItem("costoTotal", totalSolicitudCost.toString());
+  }, [costoTotalProductos, distanceCost]);
 
   const handleContinuar = async () => {
     if (!direccionOrigen || !direccionDestino) {
       alert("Por favor, asegúrate de que las direcciones estén completas.");
       return;
     }
-  
+
     try {
-      // Obtener ubicación del conductor
-      const { data: driverData, error: driverError } = await supabase
-        .from("driver_locations")
-        .select("latitude, longitude")
-        .eq("driver_id", "driver-123")
-        .maybeSingle(); // Permite que no haya registros
-  
-      if (driverError) {
-        console.error("Error obteniendo la ubicación del conductor:", driverError.message);
-        alert("No se pudo obtener la ubicación del conductor. Inténtalo de nuevo.");
-        return;
-      }
-  
-      // Guardar ubicación del conductor en sessionStorage (o valores predeterminados)
-      if (driverData && driverData.latitude && driverData.longitude) {
-        sessionStorage.setItem("conductorLat", driverData.latitude.toString());
-        sessionStorage.setItem("conductorLng", driverData.longitude.toString());
-      } else {
-        console.warn("No se encontraron datos del conductor. Continuando sin ubicación del conductor.");
-        sessionStorage.setItem("conductorLat", ""); // Valores vacíos o predeterminados
-        sessionStorage.setItem("conductorLng", "");
-      }
-  
-      // Geocodificar direcciones de origen y destino
       const fetchGeocode = async (address: string) => {
         const url = `http://localhost:3001/api/geocode?address=${encodeURIComponent(address)}`;
         try {
@@ -120,24 +99,20 @@ const Detalles_Solicitud: React.FC = () => {
         }
         return null;
       };
-  
+
       const originCoords = await fetchGeocode(direccionOrigen);
       const destinationCoords = await fetchGeocode(direccionDestino);
-  
+
       if (!originCoords || !destinationCoords) {
         alert("No se pudieron geocodificar las direcciones. Verifica las direcciones ingresadas.");
         return;
       }
-  
-      // Guardar direcciones geocodificadas en sessionStorage
-      sessionStorage.setItem("direccionOrigen", direccionOrigen);
-      sessionStorage.setItem("direccionDestino", direccionDestino);
+
       sessionStorage.setItem("originLat", originCoords.lat.toString());
       sessionStorage.setItem("originLng", originCoords.lng.toString());
       sessionStorage.setItem("destinationLat", destinationCoords.lat.toString());
       sessionStorage.setItem("destinationLng", destinationCoords.lng.toString());
-  
-      // Obtener y guardar la ruta entre origen y destino
+
       const fetchRoute = async (start: [number, number], end: [number, number]) => {
         const startCoords = `${start[1]},${start[0]}`;
         const endCoords = `${end[1]},${end[0]}`;
@@ -155,10 +130,9 @@ const Detalles_Solicitud: React.FC = () => {
           console.error("Error obteniendo la ruta:", error);
         }
       };
-  
+
       await fetchRoute([originCoords.lat, originCoords.lng], [destinationCoords.lat, destinationCoords.lng]);
-  
-      // Redirigir a la vista Maps
+
       history.push("/Maps");
     } catch (error) {
       console.error("Error al procesar la solicitud:", error);
@@ -245,7 +219,7 @@ const Detalles_Solicitud: React.FC = () => {
           <IonLabel>
             <h2>Costo Total de la Solicitud:</h2>
             <IonText color="primary">
-              <strong>{formatCurrency(totalSolicitudCost)}</strong>
+              <strong>{formatCurrency(costoTotalProductos + distanceCost)}</strong>
             </IonText>
           </IonLabel>
         </IonItem>
