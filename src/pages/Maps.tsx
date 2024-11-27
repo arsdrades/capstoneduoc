@@ -35,6 +35,8 @@ const Maps: React.FC = () => {
   const [clienteId] = useState<string>("user-123");
   const [solicitudRechazada, setSolicitudRechazada] = useState(false);
   const [solicitudEstado, setSolicitudEstado] = useState<string | null>(null);
+  const [showRejectionMessage, setShowRejectionMessage] = useState(false);
+  const [lastProcessedRejectionId, setLastProcessedRejectionId] = useState<string | null>(null);
 
   const fetchDriverLocation = async () => {
     try {
@@ -142,6 +144,8 @@ const Maps: React.FC = () => {
         nombre_cliente: clienteNombre,
         direccion_origen: sessionStorage.getItem("direccionOrigen"),
         direccion_destino: sessionStorage.getItem("direccionDestino"),
+        estado: "pendiente",
+        created_at: new Date().toISOString(),
       });
 
       if (error) {
@@ -201,20 +205,31 @@ const Maps: React.FC = () => {
   useEffect(() => {
     const checkSolicitudEstado = async () => {
       if (!driverLocation?.driver_id) return;
-  
+    
       try {
         const { data, error } = await supabase
           .from("solicitudes")
-          .select("estado")
-          .eq("driver_id", driverLocation.driver_id)
+          .select("*")
+          .eq("user_id", clienteId) // Asegúrate de filtrar por `user_id`.
+          .order("created_at", { ascending: false })
+          .limit(1)
           .single();
-  
+    
         if (error && error.code !== "PGRST116") {
           console.error("Error obteniendo el estado de la solicitud:", error.message);
         } else if (data) {
-          setSolicitudEstado(data.estado); // Actualizar el estado localmente
+          console.log("Estado de la solicitud:", data.estado);
+    
+          // Mostrar cuadro solo si es rechazado y no se ha procesado antes
+          if (data.estado === "rechazado" && data.id !== lastProcessedRejectionId) {
+            setShowRejectionMessage(true);
+            setLastProcessedRejectionId(data.id); // Actualizar la solicitud procesada
+            setTimeout(() => setShowRejectionMessage(false), 5000); // Mostrar mensaje por 5 segundos
+          }
+    
+          setSolicitudEstado(data.estado);
         } else {
-          setSolicitudEstado(null); // Si no hay solicitud, limpiar el estado
+          setSolicitudEstado(null);
         }
       } catch (err) {
         console.error("Error en la consulta de estado de la solicitud:", err);
@@ -222,13 +237,11 @@ const Maps: React.FC = () => {
     };
   
     checkSolicitudEstado();
-    const interval = setInterval(checkSolicitudEstado, 5000); // Verificar cada 5 segundos
+    const interval = setInterval(checkSolicitudEstado, 5000);
     return () => clearInterval(interval);
   }, [driverLocation]);
 
-  const handleRechazar = () => {
-    setSolicitudRechazada(true);
-  };
+
 
   useEffect(() => {
     fetchDriverLocation();
@@ -239,51 +252,38 @@ const Maps: React.FC = () => {
 
   return (
     <div style={{ position: "relative", height: "100vh" }}>
-      {solicitudRechazada && (
+    {showRejectionMessage && (
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "rgba(0, 0, 0, 0.7)",
+          color: "white",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          zIndex: 1000,
+        }}
+      >
         <div
           style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0.7)",
-            color: "white",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 1000,
+            backgroundColor: "white",
+            color: "black",
+            padding: "20px",
+            borderRadius: "10px",
+            textAlign: "center",
+            width: "80%",
+            maxWidth: "400px",
           }}
         >
-          <div
-            style={{
-              backgroundColor: "white",
-              color: "black",
-              padding: "20px",
-              borderRadius: "10px",
-              textAlign: "center",
-              width: "80%",
-              maxWidth: "400px",
-            }}
-          >
-            <p>La solicitud fue rechazada.</p>
-            <button
-              onClick={() => setSolicitudRechazada(false)}
-              style={{
-                marginTop: "10px",
-                padding: "10px 20px",
-                border: "none",
-                backgroundColor: "#007bff",
-                color: "white",
-                borderRadius: "5px",
-                cursor: "pointer",
-              }}
-            >
-              Cerrar
-            </button>
-          </div>
+          <p style={{ color: "red", fontWeight: "bold" }}>El conductor rechazó la solicitud.</p>
         </div>
-      )}
+      </div>
+    )}
+  
       {!driverLocation && (
         <div
           style={{
@@ -304,16 +304,13 @@ const Maps: React.FC = () => {
           </p>
         </div>
       )}
-      <MapContainer
-        center={[-33.4489, -70.6693]}
-        zoom={12}
-        style={{ width: "100%", height: "100vh" }}
-      >
+  
+      <MapContainer center={[-33.4489, -70.6693]} zoom={12} style={{ width: "100%", height: "100vh" }}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-
+  
         {driverLocation && (
           <Marker
             position={driverLocation.coords}
@@ -328,22 +325,27 @@ const Maps: React.FC = () => {
             <Popup>Ubicación del conductor</Popup>
           </Marker>
         )}
+  
         {originCoords && (
           <Marker position={originCoords} icon={customIcon}>
             <Popup>Origen</Popup>
           </Marker>
         )}
+  
         {destinationCoords && (
           <Marker position={destinationCoords} icon={customIcon}>
             <Popup>Destino</Popup>
           </Marker>
         )}
+  
         {route.length > 0 && <Polyline positions={route} color="blue" />}
       </MapContainer>
+  
       {showDriverInfo && driverDetails && (
         <div
           style={{
             position: "absolute",
+            marginBottom:"3rem",
             bottom: 0,
             left: 0,
             width: "100%",
@@ -392,51 +394,6 @@ const Maps: React.FC = () => {
       )}
     </div>
   );
-  {solicitudEstado === "rechazado" && (
-    <div
-      style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0, 0, 0, 0.7)",
-        color: "white",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 1000,
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: "white",
-          color: "black",
-          padding: "20px",
-          borderRadius: "10px",
-          textAlign: "center",
-          width: "80%",
-          maxWidth: "400px",
-        }}
-      >
-        <p>El conductor ha rechazado la solicitud.</p>
-        <button
-          onClick={() => setSolicitudEstado(null)}
-          style={{
-            marginTop: "10px",
-            padding: "10px 20px",
-            border: "none",
-            backgroundColor: "#007bff",
-            color: "white",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
-        >
-          Cerrar
-        </button>
-      </div>
-    </div>
-  )}
-};
+}
 
 export default Maps;
