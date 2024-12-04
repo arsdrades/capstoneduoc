@@ -1,0 +1,168 @@
+/* Estilo para la barra de herramientas principal */
+.principal {
+  --ion-background-color: #04459A;
+  text-align: center;
+}
+
+/* Estilo personalizado para el input de búsqueda */
+.custom-searchbar .searchbar-input,
+.custom-searchbar .searchbar-placeholder {
+  color: black; /* Cambia el color del texto del input y del placeholder */
+}
+
+/* Estilo para las tarjetas y textos principales */
+.titulocarta {
+  text-align: center;
+  margin: 20px 0;
+  background-color: #132d46;
+  color: white;
+  padding: 10px;
+  width: 100%;
+}
+
+/* Centra los botones en la página */
+.centered-button,
+.botoncentrado {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+/* Estilo para la carta general */
+.carta {
+  text-align: center;
+  width: 100%;
+  background-color: #132d46;
+  color: aliceblue;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+/* Estilo para el título de inicio */
+.iniciotitulos {
+  background-color: #132d46;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+/* Estilo para el botón de búsqueda de rutas */
+.botonbuscarruta {
+  background-color: #132d46;
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Estilo para el mapa */
+#map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  height: 100vh; /* Ocupa toda la altura de la vista */
+  width: 100%;
+}
+
+/* Estilo para las ubicaciones fijas */
+.fixed-location {
+  position: fixed;
+  bottom: 70px;
+  width: 100%;
+  text-align: center;
+  color: #3880ff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Estilo para el input personalizado */
+ion-input.input-custom::part(native) {
+  caret-color: white !important;
+  color: white !important;
+}
+
+/* Ajustes para que los elementos del overlay se superpongan al mapa */
+.overlay-container {
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  right: 10px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10px; /* Reducido */
+  border-radius: 10px;
+}
+
+/* Estilo para el resumen de costos */
+.cost-summary {
+  background: rgba(0, 0, 0, 0.7); /* Fondo negro con 70% de transparencia */
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%; /* Ocupa todo el ancho */
+  box-sizing: border-box;
+  position: fixed;
+  bottom: 0; /* Fija el contenedor en la parte inferior */
+  z-index: 20; /* Asegura que esté sobre otros elementos */
+  color: white; /* Color del texto para que contraste con el fondo oscuro */
+}
+
+/* Estilo para cada ítem dentro del cuadro de costos */
+.cost-item-container {
+  display: flex;
+  flex-direction: column; /* Organiza los totales en una columna */
+}
+
+
+.button-container {
+  display: flex;
+  justify-content: space-between; /* Coloca los botones en extremos opuestos */
+  margin-top: 20px;
+}
+
+/* Asegura que ambos botones tengan un ancho uniforme */
+.button-container ion-button {
+  flex: 1; /* Los botones ocuparán el mismo espacio dentro del contenedor */
+  margin: 0 5px; /* Añade un pequeño margen entre los botones */
+}
+
+/* Estilo para el botón dentro del cuadro de costos */
+.button-container-inside {
+  margin-left: auto; /* Empuja el botón hacia la derecha */
+}
+
+/* Estilo para la información del conductor */
+.driver-info-box {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.driver-info-content {
+  display: flex;
+  justify-content: space-between; /* Espacio entre la foto y los detalles */
+  align-items: center;
+}
+
+.driver-details {
+  flex: 1;
+}
+
+.driver-photo {
+  width: 50px; /* Ajusta el tamaño de la foto */
+  height: 50px;
+  border-radius: 50%; /* Hace la foto redonda */
+  object-fit: cover;
+}

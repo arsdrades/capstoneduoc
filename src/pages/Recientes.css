@@ -1,0 +1,88 @@
+
+.circular-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px; /* Ajusta el anchosssss para hacerlo más ovalado */
+  height: 45px;  /* Ajusta la altura */
+  background-color: #132d46; /* Cambia al color que prefieras */
+  color: white;
+  font-size: 18px;
+  border-radius: 40px; /* Esto crea el borde ovalado */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para darle profundidad */
+  text-align: center;
+  margin: 0 auto; /* Centro horizontal */
+}
+
+.padding{
+  padding: 20px;
+}
+
+
+.modal-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 90px;
+  padding: 20px;
+}
+
+
+.prodagreg{
+  text-align: center;
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-down {
+  animation: fadeInDown 0.8s ease-out forwards;
+}
+
+.custom-button {
+  opacity: 1;
+  transition: background-color 0.3s ease;
+}
+
+.custom-button:disabled {
+  background-color: gray;
+  opacity: 0.6;
+}
+
+.custom-button:not(:disabled) {
+  background-color: #00FF00; /* Verde cuando está habilitado */
+}
+.principal {
+  position: relative;
+  border: none; /* Elimina cualquier borde del IonToolbar */
+  box-shadow: none; /* Elimina cualquier sombra del IonToolbar */
+}
+
+.header-content {
+  border-bottom-left-radius: 10% !important; /* Redondea solo el borde inferior izquierdo */
+  border-bottom-right-radius: 10% !important; /* Redondea solo el borde inferior derecho */
+  height: 100px; /* Ajusta la altura del header */
+border: #ce0000;
+  /* Puedes cambiar el color de fondo si es necesario */
+}
+.aaa{
+  padding-top: 30px;
+  font-size: large;
+}
+
+.cajita {
+  height: 60px;
+  padding-top: 10px;
+  padding-left: 0px;
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  overflow: hidden; /* Previene líneas visibles fuera del contenedor */
+}

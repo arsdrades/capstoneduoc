@@ -1,0 +1,76 @@
+/* Set variables for all modes */
+:root {
+    /* Set the background of the entire app */
+    --ion-background-color: #f8f9fa;
+    --ion-color-primary: #132d46 ;
+    --ion-color-secondary: #05f09e;
+    --ion-color-tertiary: #9aa7a2;
+    --ion-toolbar-background: #ff5733; /* Color de fondo del navbar */
+    --ion-toolbar-color: #000000; /* Color del texto y los íconos */
+    
+    
+  
+    /* Set the font family of the entire app */
+    --ion-font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Roboto', sans-serif;
+  }
+  
+  /* Set text color of the entire app for iOS only */
+  :root.ios {
+    --ion-text-color: #000000;
+  }
+  
+  /* Set text color of the entire app for Material Design only */
+  :root.md {
+    --ion-text-color: #000000; ;
+    
+  }
+
+  .principal{
+  
+    text-align: center;
+
+  }
+
+  .headerback{
+    text-align: center;
+  }
+
+.lista1{
+    color: black;
+    
+}
+
+.boton{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+
+}
+
+.rounded-img {
+  display: block;
+  margin: 0 auto; /* Centrar horizontalmente */
+  border-radius: 50%; /* Hacer la imagen circular */
+  height: 100px; /* Ajusta el tamaño según sea necesario */
+  width: 100px; /* Ajusta el tamaño según sea necesario */
+  object-fit: cover; /* Asegura que la imagen se ajuste correctamente dentro del contenedor circular */
+}
+
+.opcionesperfil{
+  --ion-text-color: #ffffff;
+  --ion-icon-color: #ffffff;
+}
+
+.imaglogin{
+  height: 150px;
+  padding-top: 50px;
+  padding-left: 50px;
+
+}
+
+.input-custom {
+  color: white !important; /* Asegura que el texto sea blanco */
+  caret-color: white !important; /* Cambia el color del cursor a blanco */
+}
